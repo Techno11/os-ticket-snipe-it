@@ -23,7 +23,7 @@ class MentionerPluginConfig extends PluginConfig
 
     /**
      * Build an Admin settings page.
-     *
+     * TODO: Update for my app
      * {@inheritdoc}
      *
      * @see PluginConfig::getOptions()

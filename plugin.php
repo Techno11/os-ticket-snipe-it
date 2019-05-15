@@ -1,9 +1,9 @@
 <?php return array(
- 'id' => 'clonemeagain:mentioner', # notrans
+ 'id' => 'techno11:osticket-snipe-it-integrator', # notrans
  'version' => '1.2',
- 'name' => 'Mentioner',
- 'author' => 'clonemeagain@gmail.com',
- 'description' => 'Notices @mentions and those names as collaborators.',
- 'url' => 'https://github.com/clonemeagain/osticket-plugin-mentioner',
- 'plugin' => 'class.MentionerPlugin.php:MentionerPlugin'
+ 'name' => 'osTicket + Snipe-IT Integrator',
+ 'author' => 'soren@thezaisers.me',
+ 'description' => 'Auto-Links Asset ID that are marked in Square Brackets ([])',
+ 'url' => 'https://github.com/Techno11/os-ticket-snipe-it',
+ 'plugin' => 'class.SnipeITIntegrator.php:MentionerPlugin'
 );

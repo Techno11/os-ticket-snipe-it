@@ -7,7 +7,7 @@ require_once ('config.php');
  *
  * Checks @email prefix for admin-defined domain.com it will find that user/agent via address lookup, then add them as a a collaborator.
  */
-class MentionerPlugin extends Plugin {
+class SnipeITIntegrator extends Plugin {
 	const DEBUG = FALSE;
 
     /**
@@ -80,7 +80,7 @@ class MentionerPlugin extends Plugin {
 		// Match every instance of @name in the thread text
 		if ($this->getConfig ()->get ( 'at-mentions' ) && $mentions = $this->getAssetsFromBody ( $text, '[' )) {
 			// Each unique name will get added as a Collaborator to the ticket thread.
-			foreach ( $mentions as $idx => $name ) {
+			foreach ( $mentions as $idx => $asset_id ) {
 				// $this->addCollaborator ( $entry, $name );
                 //Here is where we need to get the Assets from snipe-it's API and then get a link
                 //After that, we can search through the body of the messsage for the "[" again and
@@ -114,6 +114,34 @@ class MentionerPlugin extends Plugin {
 		}
 		return isset ( $mentions [0] ) ? $mentions : null; // fastest validator ever.
 	}
+
+    /**
+     * Get the Snipe-IT Internal Asset #, so we can link to the item's page properly
+     *
+     * @param $asset_id Snipe-IT Asset ID
+     */
+	private function getAssetLinkFromAsset($asset_id) {
+	    //Temporary Testing Variables
+	    $api_key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjM3MTE0MTRiNzVjYjIxZTY0OGY2ODJhODAxZTUxNDY3YmI3YmY3ZTA2ZjJkZDM1ZWI5YmZjYzU1Y2Q2MDMyMTliYTEwZTc3OGQ5OGNlNWZkIn0.eyJhdWQiOiIxIiwianRpIjoiMzcxMTQxNGI3NWNiMjFlNjQ4ZjY4MmE4MDFlNTE0NjdiYjdiZjdlMDZmMmRkMzVlYjliZmNjNTVjZDYwMzIxOWJhMTBlNzc4ZDk4Y2U1ZmQiLCJpYXQiOjE1NTc5NDM5MzQsIm5iZiI6MTU1Nzk0MzkzNCwiZXhwIjoxNTg5NTY2MzM0LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.PmGBkUJaqO1PUu9-z73beNO1BUR0pqrkZGCn2wd9p_ZJ7G3NGyUGm90s3T2dNZ1Z1BetMeGuAH_slZiPK2Ij71lIMEW8DudaFekGSfWZjbS8gM2LZBOVNXPlXN4tiEL4vkQ-p1x8z_UxG19nOxwJL-qvkoZI8Mw7f2kURwtPcW4ivSrmk0Hr1paehk66FSVP4MIP0v9EPlhnBwDfGWsMjo87Nv5keLT5I6j0ZbYT7PIPXOHwECpI1SltKYx0mW-p1VVE02VLu30lGum8cIcHNLhenicd020lQ42fctK53Y_6Cn3YL58KGy0FjdE981EFtVEYQWRwhcisAQX-Pmqmn2-rwSmBH41Xt8csqhx3cbL7pgmx11zb6leH2MpBSNoos9Vh6bCDuAS50jj7k7b3i7kKtMek8-t2FqcEZqVkUtTzXIunzXLqTXMQTMh_5bwDsnVgsV5AgZV9bMSePuOmCUkbHQi3k4hokRlm595Agr7GKf__eiFx0IgPQrmt5LkJP7qsh9MYlYEV-Ed2OuBsWEMX7wpbxjpMB6yC29VengZO1Tbv34vZKqFQAkksPjP91fjFZ95TiaL04yZmhH3_KJ7jmilTogZ2jNv6W1OezlJoIgyH9C7jkiXhj45q4wpPkUU1HLFuOyM2jleg2uQs4nKHRoL-JC8cbazHGx_rDTs';
+	    $snipe_link = 'http://10.41.101.59/';
+        // Create a stream
+        $options = array(
+            'http'=>array(
+                'method'=>"GET",
+                'header'=>
+                    "accept: application/json\r\n" .
+                    "authorization: Bearer " . $api_key . "\r\n" .
+                    "content-type: application/json\r\n"
+            )
+        );
+
+        $context = stream_context_create($options);
+
+        // Open the file using the HTTP headers set above
+        $snipe_response = file_get_contents($snipe_link . 'api/v1/hardware/bytag/' . $asset_id, false, $context);
+
+        //Parse Response
+    }
 	
 	/**
 	 * Required stub.
