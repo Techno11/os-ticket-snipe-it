@@ -48,6 +48,7 @@ class SnipeITIntegrator extends Plugin {
 			if (self::DEBUG) {
 				error_log ( "ThreadEntry detected, checking for mentions and notifying staff." );
 			}
+            echo '<script>console.log("We have run!")</script>';
 			$this->checkThreadTextForAssets ( $entry );
 		} );
 	}

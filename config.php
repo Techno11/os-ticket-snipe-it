@@ -40,12 +40,12 @@ class SnipeITPluginConfig extends PluginConfig
             'apikey' => new TextboxField([ //API Key
                 'label' => $__('Snipe-IT Api Key'),
                 'hint' => $__('Your Secret API Key for Snipe-IT'),
-                'default' => 'http://your_url.com'
+                'default' => ''
             ]),
             'url' => new TextboxField([ //Snipe-IT Url
                 'label' => $__('Snipe-IT URL'),
                 'hint' => $__('The URL Of you Snipe-IT Server (http://url.com/)'),
-                'default' => ''
+                'default' => 'http://url.com/'
             ])/*,
             'aiec' => new BooleanField([ //Asset ID Encasement Character
                 'label' => $__("Encasement Character(s) for Asset ID"),
