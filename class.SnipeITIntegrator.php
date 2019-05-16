@@ -47,9 +47,8 @@ class SnipeITIntegrator extends Plugin {
 		Signal::connect ( 'threadentry.created', function (ThreadEntry $entry) {
 			if (self::DEBUG) {
 				error_log ( "ThreadEntry detected, checking for mentions and notifying staff." );
-                $entry->setBody('This is my test Debug Because I can\'t seem to debug any better');
 			}
-			// $this->checkThreadTextForAssets ( $entry );
+			$this->checkThreadTextForAssets ( $entry );
 		} );
 	}
 	
@@ -63,6 +62,8 @@ class SnipeITIntegrator extends Plugin {
 		$text = $entry->getBody ()->getClean ();
 		$config = $this->getConfig ();
 
+		$ticketDebug = '';
+
 		// Match every instance of [asset in the thread text
 		if ($assets = $this->getAssetsFromBody ( $text, '[' )) {
 		    $snipe_asset_id = array();
@@ -70,12 +71,14 @@ class SnipeITIntegrator extends Plugin {
 			foreach ( $assets as $idx => $asset_id ) {
 			    array_push($snipe_asset_id, $this -> getAssetLinkFromAsset($asset_id));
 			}
+			$ticketDebug = $ticketDebug . "Debug point 1 \n" . $snipe_asset_id;
 			// We have the IDs, now we need to inject the links into the message
             $body_with_links = $this->injectLinks($text, $snipe_asset_id);
 			//Get Ticket
             $ticket = $this->getTicket ( $entry );
             //Set Body
-            $ticket->setBody($body_with_links);
+            //$ticket->setBody($body_with_links);
+            $ticket->setBody($ticketDebug);
 
 		}
 	}
