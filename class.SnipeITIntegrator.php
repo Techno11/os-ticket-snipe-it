@@ -6,7 +6,7 @@ require_once ('config.php');
  * TODO At some point write a plugin description here
  */
 class SnipeITIntegrator extends Plugin {
-	const DEBUG = FALSE;
+	const DEBUG = true;
 
     /**
      * The Sign that Triggers our software to look for an asset ID
