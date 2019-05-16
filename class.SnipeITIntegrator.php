@@ -63,15 +63,14 @@ class SnipeITIntegrator extends Plugin {
 		$config = $this->getConfig ();
 
 		$ticketDebug = '';
+        $ticketDebug = $ticketDebug . "Debug point 1 '" . $text . "'";
+        $ticket = $this->getTicket ( $entry );
+        $ticket->setBody($ticketDebug);
 
 		// Match every instance of [asset in the thread text
 		if ($assets = $this->getAssetsFromBody ( $text, '[' )) {
 
-            $ticketDebug = $ticketDebug . "Debug point 1";
-            $ticket = $this->getTicket ( $entry );
-            $ticket->setBody($ticketDebug);
-
-		    $snipe_asset_id = array();
+            $snipe_asset_id = array();
 		    // We are gonna contact Snipe-IT's API and their real IDs
 			foreach ( $assets as $idx => $asset_id ) {
 			    array_push($snipe_asset_id, $this -> getAssetLinkFromAsset($asset_id));
