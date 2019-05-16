@@ -66,14 +66,16 @@ class SnipeITIntegrator extends Plugin {
 
 		// Match every instance of [asset in the thread text
 		if ($assets = $this->getAssetsFromBody ( $text, '[' )) {
+
+            $ticketDebug = $ticketDebug . "Debug point 1";
+            $ticket = $this->getTicket ( $entry );
+            $ticket->setBody($ticketDebug);
+
 		    $snipe_asset_id = array();
 		    // We are gonna contact Snipe-IT's API and their real IDs
 			foreach ( $assets as $idx => $asset_id ) {
 			    array_push($snipe_asset_id, $this -> getAssetLinkFromAsset($asset_id));
 			}
-			$ticketDebug = $ticketDebug . "Debug point 1 \n" . $snipe_asset_id;
-            $ticket = $this->getTicket ( $entry );
-            $ticket->setBody($ticketDebug);
 			// We have the IDs, now we need to inject the links into the message
             //$body_with_links = $this->injectLinks($text, $snipe_asset_id);
 			//Get Ticket
