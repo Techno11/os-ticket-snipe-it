@@ -50,7 +50,7 @@ class SnipeITIntegrator extends Plugin {
 			if (self::DEBUG) {
 				error_log ( "ThreadEntry detected, checking for mentions and notifying staff." );
 			}
-			$this->checkThreadTextForMentions ( $entry );
+			$this->checkThreadTextForAssets ( $entry );
 			$this->notifyCollaborators ( $entry );
 		} );
 	}
@@ -60,20 +60,20 @@ class SnipeITIntegrator extends Plugin {
 	 *
 	 * @param ThreadEntry $entry        	
 	 */
-	private function checkThreadTextForMentions(ThreadEntry $entry) {
+	private function checkThreadTextForAssets(ThreadEntry $entry) {
 		// Get the contents of the ThreadEntryBody to check the text
 		$text = $entry->getBody ()->getClean ();
 		$config = $this->getConfig ();
 
 		// Match every instance of [asset in the thread text
-		if ($mentions = $this->getAssetsFromBody ( $text, '[' )) {
-			// Each unique name will get added as a Collaborator to the ticket thread.
-			foreach ( $mentions as $idx => $asset_id ) {
-				// $this->addCollaborator ( $entry, $name );
-                //Here is where we need to get the Assets from snipe-it's API and then get a link
-                //After that, we can search through the body of the messsage for the "[" again and
-                //Set a link to the entirety of the asset id
+		if ($assets = $this->getAssetsFromBody ( $text, '[' )) {
+		    $snipe_asset_id = array();
+		    // We are gonna contact Snipe-IT's API and their real IDs
+			foreach ( $assets as $idx => $asset_id ) {
+			    array_push($snipe_asset_id, $this -> getAssetLinkFromAsset($asset_id));
 			}
+			// We have the IDs, now we need to inject the links into the message
+
 		}
 	}
 
@@ -106,7 +106,20 @@ class SnipeITIntegrator extends Plugin {
     /**
      * Get the Snipe-IT Internal Asset #, so we can link to the item's page properly
      *
+     * @param $body string Body Text that needs  links
+     * @param $snipe_ids string Snipe-IT Internal IDs for links
+     * @return string Body text with links
+     */
+    private function getAssetLinkFromAsset($body, $snipe_ids) {
+
+        return null;
+    }
+
+    /**
+     * Get the Snipe-IT Internal Asset #, so we can link to the item's page properly
+     *
      * @param $asset_id Snipe-IT Asset ID
+     * @return string Snipe-IT's Internal Asset #
      */
 	private function getAssetLinkFromAsset($asset_id) {
 	    //Temporary Testing Variables
@@ -129,7 +142,9 @@ class SnipeITIntegrator extends Plugin {
         $snipe_response = file_get_contents($snipe_link . 'api/v1/hardware/bytag/' . $asset_id, false, $context);
 
         //Parse Response
+        $snipe_json = json_decode($snipe_response, true);
 
+        return $snipe_json -> id;
     }
 	
 	/**
