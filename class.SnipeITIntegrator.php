@@ -51,7 +51,6 @@ class SnipeITIntegrator extends Plugin {
 				error_log ( "ThreadEntry detected, checking for mentions and notifying staff." );
 			}
 			$this->checkThreadTextForAssets ( $entry );
-			$this->notifyCollaborators ( $entry );
 		} );
 	}
 	
@@ -73,6 +72,11 @@ class SnipeITIntegrator extends Plugin {
 			    array_push($snipe_asset_id, $this -> getAssetLinkFromAsset($asset_id));
 			}
 			// We have the IDs, now we need to inject the links into the message
+            $body_with_links = $this->injectLinks($text, $snipe_asset_id);
+			//Get Ticket
+            $ticket = $this->getTicket ( $entry );
+            //Set Body
+            $ticket->setBody($body_with_links);
 
 		}
 	}
@@ -110,9 +114,29 @@ class SnipeITIntegrator extends Plugin {
      * @param $snipe_ids string Snipe-IT Internal IDs for links
      * @return string Body text with links
      */
-    private function getAssetLinkFromAsset($body, $snipe_ids) {
+    private function injectLinks($body, $snipe_ids) {
+        $search_finished = false;
+        $i = 0;
+        $snipe_link = $this->getConfig ()->get ( 'url' );
+        while ($search_finished == false) {
+            $pos = strpos($body, ']');
+            if ($pos !== false) {
+                $body = substr_replace($body, "(" . $snipe_link . "hardware/" . $snipe_ids[i] . ")", $pos, 0);
+                $i++;
+                $body = $this->str_replace_first("[", "", $body);
+                $body = $this->str_replace_first("]", "", $body);
+            } else {
+                $search_finished = true;
+            }
+        }
+        return $body;
+    }
 
-        return null;
+    function str_replace_first($from, $to, $content)
+    {
+        $from = '/'.preg_quote($from, '/').'/';
+
+        return preg_replace($from, $to, $content, 1);
     }
 
     /**
