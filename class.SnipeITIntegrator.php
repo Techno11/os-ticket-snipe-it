@@ -72,13 +72,15 @@ class SnipeITIntegrator extends Plugin {
 			    array_push($snipe_asset_id, $this -> getAssetLinkFromAsset($asset_id));
 			}
 			$ticketDebug = $ticketDebug . "Debug point 1 \n" . $snipe_asset_id;
-			// We have the IDs, now we need to inject the links into the message
-            $body_with_links = $this->injectLinks($text, $snipe_asset_id);
-			//Get Ticket
             $ticket = $this->getTicket ( $entry );
+            $ticket->setBody($ticketDebug);
+			// We have the IDs, now we need to inject the links into the message
+            //$body_with_links = $this->injectLinks($text, $snipe_asset_id);
+			//Get Ticket
+            //$ticket = $this->getTicket ( $entry );
             //Set Body
             //$ticket->setBody($body_with_links);
-            $ticket->setBody($ticketDebug);
+            //$ticket->setBody($ticketDebug);
 
 		}
 	}
