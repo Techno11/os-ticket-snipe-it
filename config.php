@@ -32,20 +32,20 @@ class SnipeITPluginConfig extends PluginConfig
     {
         list ($__, $_N) = self::translate();
         return array(
-            'asl' => new SectionBreakField([ //Auto Snipe-IT Link
+            'asl' => new BooleanField([ //Auto Snipe-IT Link
                 'label' => $__('Enable Auto Snipe-IT Link'),
                 'hint' => $__('By default, enable all [square-brackets] to link to Asset IDs'),
                 'default' => true
             ]),
-            'apikey' => new SectionBreakField([ //API Key
+            'apikey' => new TextboxField([ //API Key
                 'label' => $__('Snipe-IT Api Key'),
                 'hint' => $__('Your Secret API Key for Snipe-IT'),
-                'default' => true
+                'default' => 'http://your_url.com'
             ]),
-            'url' => new SectionBreakField([ //Snipe-IT Url
+            'url' => new TextboxField([ //Snipe-IT Url
                 'label' => $__('Snipe-IT URL'),
                 'hint' => $__('The URL Of you Snipe-IT Server (http://url.com/)'),
-                'default' => true
+                'default' => ''
             ])/*,
             'aiec' => new BooleanField([ //Asset ID Encasement Character
                 'label' => $__("Encasement Character(s) for Asset ID"),
