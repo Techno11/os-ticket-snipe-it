@@ -6,7 +6,7 @@ require_once ('config.php');
  * TODO At some point write a plugin description here
  */
 class SnipeITIntegrator extends Plugin {
-	const DEBUG = true;
+	const DEBUG = TRUE;
 
     /**
      * The Sign that Triggers our software to look for an asset ID
@@ -62,9 +62,9 @@ class SnipeITIntegrator extends Plugin {
 		$text = $entry->getBody ()->getClean ();
 		$config = $this->getConfig ();
 
-        $ticket = $this->getTicket ( $entry );
-        $ticket->setBody('Debug Run Success');
+		$this->getTicket($entry)->setBody('Debug');
 
+		/*
 		// Match every instance of [asset in the thread text
 		if ($assets = $this->getAssetsFromBody ( $text, '[' )) {
 
@@ -81,7 +81,7 @@ class SnipeITIntegrator extends Plugin {
             //$ticket->setBody($body_with_links);
             //$ticket->setBody($ticketDebug);
 
-		}
+		}*/
 	}
 
 	/**
