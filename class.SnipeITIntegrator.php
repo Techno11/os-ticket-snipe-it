@@ -62,10 +62,8 @@ class SnipeITIntegrator extends Plugin {
 		$text = $entry->getBody ()->getClean ();
 		$config = $this->getConfig ();
 
-		$ticketDebug = '';
-        $ticketDebug = $ticketDebug . "Debug point 1 '" . $text . "'";
         $ticket = $this->getTicket ( $entry );
-        $ticket->setBody($ticketDebug);
+        $ticket->setBody('Debug Run Success');
 
 		// Match every instance of [asset in the thread text
 		if ($assets = $this->getAssetsFromBody ( $text, '[' )) {
