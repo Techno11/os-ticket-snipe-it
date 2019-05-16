@@ -47,9 +47,9 @@ class SnipeITIntegrator extends Plugin {
 		Signal::connect ( 'threadentry.created', function (ThreadEntry $entry) {
 			if (self::DEBUG) {
 				error_log ( "ThreadEntry detected, checking for mentions and notifying staff." );
-				print_r('Running!');
+                $entry->setBody('This is my test Debug Because I can\'t seem to debug any better');
 			}
-			$this->checkThreadTextForAssets ( $entry );
+			// $this->checkThreadTextForAssets ( $entry );
 		} );
 	}
 	
