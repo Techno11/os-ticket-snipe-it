@@ -3,9 +3,7 @@ require_once (INCLUDE_DIR . 'class.signal.php');
 require_once ('config.php');
 
 /**
- * The goal of this Plugin is to read messages, find things that look like
- *
- * Checks @email prefix for admin-defined domain.com it will find that user/agent via address lookup, then add them as a a collaborator.
+ * TODO At some point write a plugin description here
  */
 class SnipeITIntegrator extends Plugin {
 	const DEBUG = FALSE;
@@ -19,7 +17,7 @@ class SnipeITIntegrator extends Plugin {
 	 *
 	 * @var string
 	 */
-	public $config_class = 'MentionerPluginConfig';
+	public $config_class = 'SnipeITPluginConfig';
 	
 	/**
 	 * To prevent buffer overflows, let's set the max length of a name we'll ever use to this:

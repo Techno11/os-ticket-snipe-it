@@ -5,5 +5,5 @@
  'author' => 'soren@thezaisers.me',
  'description' => 'Auto-Links Asset ID that are marked in Square Brackets ([])',
  'url' => 'https://github.com/Techno11/os-ticket-snipe-it',
- 'plugin' => 'class.SnipeITIntegrator.php:MentionerPlugin'
+ 'plugin' => 'class.SnipeITIntegrator.php:SnipeITIntegrator'
 );

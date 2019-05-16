@@ -1,7 +1,7 @@
 <?php
 require_once INCLUDE_DIR . 'class.plugin.php';
 
-class MentionerPluginConfig extends PluginConfig
+class SnipeITPluginConfig extends PluginConfig
 {
 
     // Provide compatibility function for versions of osTicket prior to
