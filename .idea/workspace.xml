@@ -29,8 +29,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/class.SnipeITIntegrator.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="65" column="43" selection-start-line="65" selection-start-column="43" selection-end-line="65" selection-end-column="43" />
+            <state relative-caret-position="442">
+              <caret line="90" column="82" selection-start-line="90" selection-start-column="82" selection-end-line="90" selection-end-column="82" />
             </state>
           </provider>
         </entry>
@@ -49,6 +49,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>prefix</find>
+      <find>getTicket</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -118,12 +119,12 @@
       <updated>1557936297989</updated>
       <workItem from="1557936300962" duration="1344000" />
       <workItem from="1557943264848" duration="7754000" />
-      <workItem from="1558043226380" duration="3227000" />
+      <workItem from="1558043226380" duration="4717000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14533000" />
+    <option name="totallyTimeSpent" value="16023000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -177,8 +178,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/class.SnipeITIntegrator.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="65" column="43" selection-start-line="65" selection-start-column="43" selection-end-line="65" selection-end-column="43" />
+        <state relative-caret-position="442">
+          <caret line="90" column="82" selection-start-line="90" selection-start-column="82" selection-end-line="90" selection-end-column="82" />
         </state>
       </provider>
     </entry>

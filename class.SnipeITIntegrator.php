@@ -6,7 +6,9 @@ require_once ('config.php');
  * TODO At some point write a plugin description here
  */
 class SnipeITIntegrator extends Plugin {
-	const DEBUG = TRUE;
+	const DEBUG = true;
+
+	const DEBUG_SNIPE_API_CALLS = true;
 
     /**
      * The Sign that Triggers our software to look for an asset ID
@@ -48,7 +50,7 @@ class SnipeITIntegrator extends Plugin {
 			if (self::DEBUG) {
 				error_log ( "ThreadEntry detected, checking for mentions and notifying staff." );
 			}
-			$this->checkThreadTextForAssets ( $entry );
+			// $this->checkThreadTextForAssets ( $entry );
 		} );
 	}
 	
@@ -62,26 +64,34 @@ class SnipeITIntegrator extends Plugin {
 		$text = $entry->getBody ()->getClean ();
 		$config = $this->getConfig ();
 
-		$this->getTicket($entry)->setBody('Debug');
-
-		/*
 		// Match every instance of [asset in the thread text
 		if ($assets = $this->getAssetsFromBody ( $text, '[' )) {
-
-            $snipe_asset_id = array();
+            if (self::DEBUG) {
+                error_log ( "[DEBUG][checkThreadTextForAssets] Number of Assets found: " . array_count_values($assets));
+            }
+		    $snipe_asset_id = array();
 		    // We are gonna contact Snipe-IT's API and their real IDs
 			foreach ( $assets as $idx => $asset_id ) {
 			    array_push($snipe_asset_id, $this -> getAssetLinkFromAsset($asset_id));
 			}
+            if (self::DEBUG) {
+                error_log ( "[DEBUG][checkThreadTextForAssets] Finished Querying Snipe-IT API");
+            }
 			// We have the IDs, now we need to inject the links into the message
-            //$body_with_links = $this->injectLinks($text, $snipe_asset_id);
+            $body_with_links = $this->injectLinks($text, $snipe_asset_id);
+            if (self::DEBUG) {
+                error_log ( "[DEBUG][checkThreadTextForAssets] Injected Links");
+            }
 			//Get Ticket
-            //$ticket = $this->getTicket ( $entry );
+            $ticket = $this->getTicket ( $entry );
             //Set Body
-            //$ticket->setBody($body_with_links);
-            //$ticket->setBody($ticketDebug);
+            $ticket->setBody($body_with_links);
 
-		}*/
+            if (self::DEBUG) {
+                error_log ( "[DEBUG][checkThreadTextForAssets] Set Body. All done!");
+            }
+
+		}
 	}
 
 	/**
@@ -149,6 +159,9 @@ class SnipeITIntegrator extends Plugin {
      * @return string Snipe-IT's Internal Asset #
      */
 	private function getAssetLinkFromAsset($asset_id) {
+        if (self::DEBUG_SNIPE_API_CALLS) {
+            error_log ( "[DEBUG_SNIPE_API_CALLS][getAssetLinkFromAsset] Starting Call for '" . $asset_id . "'");
+        }
 	    //Temporary Testing Variables
 	    $api_key = $this->getConfig ()->get ( 'apikey' );
 	    $snipe_link = $this->getConfig ()->get ( 'url' );
@@ -162,6 +175,9 @@ class SnipeITIntegrator extends Plugin {
                     "content-type: application/json\r\n"
             )
         );
+        if (self::DEBUG_SNIPE_API_CALLS) {
+            error_log ( "[DEBUG_SNIPE_API_CALLS][getAssetLinkFromAsset] Response From API for '" . $asset_id . "'");
+        }
 
         $context = stream_context_create($options);
 
@@ -170,6 +186,10 @@ class SnipeITIntegrator extends Plugin {
 
         //Parse Response
         $snipe_json = json_decode($snipe_response, true);
+
+        if (self::DEBUG_SNIPE_API_CALLS) {
+            error_log ( "[DEBUG_SNIPE_API_CALLS][getAssetLinkFromAsset] Parsed JSON for '" . $asset_id . "' Response is '" . $snipe_json->id . "'");
+        }
 
         return $snipe_json -> id;
     }
