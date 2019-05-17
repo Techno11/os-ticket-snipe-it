@@ -132,7 +132,7 @@ class SnipeITIntegrator extends Plugin {
         while ($search_finished == false) {
             $pos = strpos($body, ']');
             if ($pos !== false) {
-                $body = substr_replace($body, "(" . $snipe_link . "hardware/" . $snipe_ids[i] . ")", $pos, 0);
+                $body = substr_replace($body, "(" . $snipe_link . "hardware/" . $snipe_ids[$i] . ")", $pos, 0);
                 $i++;
                 $body = $this->str_replace_first("[", "", $body);
                 $body = $this->str_replace_first("]", "", $body);
