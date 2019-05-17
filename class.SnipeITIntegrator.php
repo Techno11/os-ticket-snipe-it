@@ -105,7 +105,7 @@ class SnipeITIntegrator extends Plugin {
 	 */
 	private function getAssetsFromBody($text, $prefix = '@') {
 		$matches = $mentions = array ();
-		if (preg_match_all ( "/(^|\s)?$prefix([\.\w]+)/i", $text, $matches ) !== FALSE) {
+		if (preg_match_all ( "/(^|\s)\?$prefix([\.\w]+)/i", $text, $matches ) !== FALSE) {
 			if (count ( $matches [2] )) {
 				$mentions = array_map ( function ($asset) {
 					// restricts length of $asset's, prevent overflow

@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cce4a468-e97b-42b3-9a46-445ad8b3f01b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/class.SnipeITIntegrator.php" beforeDir="false" afterPath="$PROJECT_DIR$/class.SnipeITIntegrator.php" afterDir="false" />
-    </list>
+    <list default="true" id="cce4a468-e97b-42b3-9a46-445ad8b3f01b" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,8 +27,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/class.SnipeITIntegrator.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="52" column="12" selection-start-line="52" selection-start-column="12" selection-end-line="52" selection-end-column="12" />
+            <state relative-caret-position="306">
+              <caret line="107" column="56" lean-forward="true" selection-start-line="107" selection-start-column="30" selection-end-line="107" selection-end-column="56" />
             </state>
           </provider>
         </entry>
@@ -119,12 +117,12 @@
       <updated>1557936297989</updated>
       <workItem from="1557936300962" duration="1344000" />
       <workItem from="1557943264848" duration="7754000" />
-      <workItem from="1558043226380" duration="4917000" />
+      <workItem from="1558043226380" duration="5157000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16223000" />
+    <option name="totallyTimeSpent" value="16463000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -178,8 +176,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/class.SnipeITIntegrator.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="52" column="12" selection-start-line="52" selection-start-column="12" selection-end-line="52" selection-end-column="12" />
+        <state relative-caret-position="306">
+          <caret line="107" column="56" lean-forward="true" selection-start-line="107" selection-start-column="30" selection-end-line="107" selection-end-column="56" />
         </state>
       </provider>
     </entry>
