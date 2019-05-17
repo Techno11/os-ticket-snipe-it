@@ -191,7 +191,7 @@ class SnipeITIntegrator extends Plugin {
             error_log ( "[DEBUG_SNIPE_API_CALLS][getAssetLinkFromAsset] Parsed JSON for '" . $asset_id . "' Response is '" . $snipe_json->id . "'");
         }
 
-        return $snipe_json -> id;
+        return $snipe_json["id"];
     }
 	
 	/**
