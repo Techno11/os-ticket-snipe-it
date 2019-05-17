@@ -190,6 +190,7 @@ class SnipeITIntegrator extends Plugin {
         if (self::DEBUG_PRINT_JSON_RESPONSE) {
             error_log ( "[DEBUG_PRINT_JSON_RESPONSE][getAssetLinkFromAsset] HTTP Response '" . $header . "'");
             error_log ( "[DEBUG_PRINT_JSON_RESPONSE][getAssetLinkFromAsset] JSON Response '" . $body   . "'");
+            //TODO: Handle Error from non-200 responses
         }
 
         //Parse Response
