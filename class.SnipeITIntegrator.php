@@ -165,6 +165,9 @@ class SnipeITIntegrator extends Plugin {
 	    //Temporary Testing Variables
 	    $api_key = $this->getConfig ()->get ( 'apikey' );
 	    $snipe_link = $this->getConfig ()->get ( 'url' );
+
+
+	    /**
         // Create a stream
         $options = array(
             'http'=>array(
@@ -175,14 +178,26 @@ class SnipeITIntegrator extends Plugin {
                     "content-type: application/json\r\n"
             )
         );
-        if (self::DEBUG_SNIPE_API_CALLS) {
-            error_log ( "[DEBUG_SNIPE_API_CALLS][getAssetLinkFromAsset] Response From API for '" . $asset_id . "'");
-        }
-
+        // Convert config
         $context = stream_context_create($options);
 
         // Open the file using the HTTP headers set above
-        $snipe_response = file_get_contents($snipe_link . 'api/v1/hardware/bytag/' . $asset_id, false, $context);
+        $snipe_response = file_get_contents($snipe_link . 'api/v1/hardware/bytag/' . $asset_id, false, $context);*/
+
+        $curl_h = curl_init($snipe_link . 'api/v1/hardware/bytag/' . $asset_id);
+
+        curl_setopt($curl_h, CURLOPT_HTTPHEADER,
+            array(
+                "accept: application/json",
+                "authorization: Bearer " . $api_key,
+                "content-type: application/json",
+            )
+        );
+
+        # do not output, but store to variable
+        curl_setopt($curl_h, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($curl_h);
 
         if (self::DEBUG_PRINT_JSON_RESPONSE) {
             error_log ( "[DEBUG_PRINT_JSON_RESPONSE][getAssetLinkFromAsset] Queried With address '" . $snipe_link . 'api/v1/hardware/bytag/' . $asset_id);
@@ -190,7 +205,7 @@ class SnipeITIntegrator extends Plugin {
         }
 
         //Parse Response
-        $snipe_json = json_decode($snipe_response, true);
+        $snipe_json = json_decode($response, true);
 
         if (self::DEBUG_PRINT_JSON_RESPONSE) {
             error_log ( "[DEBUG_PRINT_JSON_RESPONSE][getAssetLinkFromAsset] JSON Parsed '" . $snipe_json . "'");
