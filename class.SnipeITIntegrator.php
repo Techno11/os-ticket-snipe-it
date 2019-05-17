@@ -48,9 +48,9 @@ class SnipeITIntegrator extends Plugin {
 	function bootstrap() {
 		Signal::connect ( 'threadentry.created', function (ThreadEntry $entry) {
 			if (self::DEBUG) {
-				error_log ( "ThreadEntry detected, checking for mentions and notifying staff." );
+				error_log ( "ThreadEntry detected, checking for assets and adding links." );
 			}
-			// $this->checkThreadTextForAssets ( $entry );
+			$this->checkThreadTextForAssets ( $entry );
 		} );
 	}
 	
