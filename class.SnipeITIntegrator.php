@@ -10,6 +10,8 @@ class SnipeITIntegrator extends Plugin {
 
 	const DEBUG_SNIPE_API_CALLS = true;
 
+    const DEBUG_PRINT_JSON_RESPONSE = true;
+
     /**
      * The Sign that Triggers our software to look for an asset ID
      */
@@ -182,8 +184,16 @@ class SnipeITIntegrator extends Plugin {
         // Open the file using the HTTP headers set above
         $snipe_response = file_get_contents($snipe_link . 'api/v1/hardware/bytag/' . $asset_id, false, $context);
 
+        if (self::DEBUG_PRINT_JSON_RESPONSE) {
+            error_log ( "[DEBUG_PRINT_JSON_RESPONSE][getAssetLinkFromAsset] JSON Response '" . $snipe_response . "'");
+        }
+
         //Parse Response
         $snipe_json = json_decode($snipe_response, true);
+
+        if (self::DEBUG_PRINT_JSON_RESPONSE) {
+            error_log ( "[DEBUG_PRINT_JSON_RESPONSE][getAssetLinkFromAsset] JSON Parsed '" . $snipe_json . "'");
+        }
 
         if (self::DEBUG_SNIPE_API_CALLS) {
             error_log ( "[DEBUG_SNIPE_API_CALLS][getAssetLinkFromAsset] Parsed JSON for '" . $asset_id . "' Response is '" . $snipe_json->id . "'");
