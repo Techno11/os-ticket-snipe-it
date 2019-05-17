@@ -175,10 +175,11 @@ class SnipeITIntegrator extends Plugin {
             )
         );
 
-        # do not output, but store to variable
+        //do not output, but store to variable
         curl_setopt($curl_h, CURLOPT_RETURNTRANSFER, true);
         // Get Headers
-        curl_setopt($curl_h, CURLOPT_VERBOSE, 1);
+        curl_setopt($curl_h, CURLOPT_VERBOSE, true);
+        curl_setopt($curl_h, CURLINFO_HEADER_OUT, true);
 
         $response = curl_exec($curl_h);
 
@@ -186,8 +187,10 @@ class SnipeITIntegrator extends Plugin {
         $header_size = curl_getinfo($curl_h, CURLINFO_HEADER_SIZE);
         $header = substr($response, 0, $header_size);
         $body = substr($response, $header_size);
+        $info = curl_getinfo($curl_h);
 
         if (self::DEBUG_PRINT_JSON_RESPONSE) {
+            error_log ( "[DEBUG_PRINT_JSON_RESPONSE][getAssetLinkFromAsset] HTTP Sent '"     . $info['request_header'] . "'");
             error_log ( "[DEBUG_PRINT_JSON_RESPONSE][getAssetLinkFromAsset] HTTP Response '" . $header . "'");
             error_log ( "[DEBUG_PRINT_JSON_RESPONSE][getAssetLinkFromAsset] JSON Response '" . $body   . "'");
             //TODO: Handle Error from non-200 responses
