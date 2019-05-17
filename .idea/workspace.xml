@@ -29,8 +29,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/class.SnipeITIntegrator.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="379">
-              <caret line="192" lean-forward="true" selection-start-line="192" selection-end-line="192" />
+            <state relative-caret-position="396">
+              <caret line="187" column="152" selection-start-line="187" selection-start-column="152" selection-end-line="187" selection-end-column="152" />
             </state>
           </provider>
         </entry>
@@ -119,12 +119,12 @@
       <updated>1557936297989</updated>
       <workItem from="1557936300962" duration="1344000" />
       <workItem from="1557943264848" duration="7754000" />
-      <workItem from="1558043226380" duration="8061000" />
+      <workItem from="1558043226380" duration="8431000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19367000" />
+    <option name="totallyTimeSpent" value="19737000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -178,8 +178,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/class.SnipeITIntegrator.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="192" lean-forward="true" selection-start-line="192" selection-end-line="192" />
+        <state relative-caret-position="396">
+          <caret line="187" column="152" selection-start-line="187" selection-start-column="152" selection-end-line="187" selection-end-column="152" />
         </state>
       </provider>
     </entry>

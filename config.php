@@ -37,7 +37,7 @@ class SnipeITPluginConfig extends PluginConfig
                 'hint' => $__('By default, enable all [square-brackets] to link to Asset IDs'),
                 'default' => true
             ]),
-            'apikey' => new TextboxField([ //API Key
+            'apikey' => new TextareaField([ //API Key
                 'label' => $__('Snipe-IT Api Key'),
                 'hint' => $__('Your Secret API Key for Snipe-IT'),
                 'default' => ''

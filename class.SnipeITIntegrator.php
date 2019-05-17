@@ -185,6 +185,7 @@ class SnipeITIntegrator extends Plugin {
         $snipe_response = file_get_contents($snipe_link . 'api/v1/hardware/bytag/' . $asset_id, false, $context);
 
         if (self::DEBUG_PRINT_JSON_RESPONSE) {
+            error_log ( "[DEBUG_PRINT_JSON_RESPONSE][getAssetLinkFromAsset] Queried With address '" . $snipe_link . 'api/v1/hardware/bytag/' . $asset_id);
             error_log ( "[DEBUG_PRINT_JSON_RESPONSE][getAssetLinkFromAsset] JSON Response '" . $snipe_response . "'");
         }
 
