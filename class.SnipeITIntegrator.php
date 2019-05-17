@@ -82,10 +82,8 @@ class SnipeITIntegrator extends Plugin {
             if (self::DEBUG) {
                 error_log ( "[DEBUG][checkThreadTextForAssets] Injected Links");
             }
-			//Get Ticket
-            $ticket = $this->getTicket ( $entry );
             //Set Body
-            $ticket->setBody($body_with_links);
+            $entry->setBody($body_with_links);
 
             if (self::DEBUG) {
                 error_log ( "[DEBUG][checkThreadTextForAssets] Set Body. All done!");
@@ -210,8 +208,8 @@ class SnipeITIntegrator extends Plugin {
 	 * Plugins seem to want this.
 	 */
 	public function getForm() {
-		return array ();
-	}
+        return array();
+    }
 }
 
 
