@@ -190,6 +190,8 @@ class SnipeITIntegrator extends Plugin {
         $body = substr($response, $header_size);
         $header_out = curl_getinfo($curl_h, CURLINFO_HEADER_OUT);
 
+        curl_close($curl_h);
+
         if (self::DEBUG_PRINT_JSON_RESPONSE) {
             error_log ( "[DEBUG_PRINT_JSON_RESPONSE][getAssetLinkFromAsset] HTTP Sent '"     . $header_out . "'");
             error_log ( "[DEBUG_PRINT_JSON_RESPONSE][getAssetLinkFromAsset] HTTP Response '" . $header . "'");
