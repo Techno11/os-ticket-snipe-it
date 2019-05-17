@@ -115,7 +115,6 @@ class SnipeITIntegrator extends Plugin {
 		}
 		if (self::DEBUG) {
 			error_log ( "Matched $prefix " . count ( $mentions ) . ' matches.' );
-			error_log ( print_r ( $mentions, true ) );
 		}
 		return isset ( $mentions [0] ) ? $mentions : null; // fastest validator ever.
 	}
@@ -166,25 +165,7 @@ class SnipeITIntegrator extends Plugin {
 	    $api_key = $this->getConfig ()->get ( 'apikey' );
 	    $snipe_link = $this->getConfig ()->get ( 'url' );
 
-
-	    /**
-        // Create a stream
-        $options = array(
-            'http'=>array(
-                'method'=>"GET",
-                'header'=>
-                    "accept: application/json\r\n" .
-                    "authorization: Bearer " . $api_key . "\r\n" .
-                    "content-type: application/json\r\n"
-            )
-        );
-        // Convert config
-        $context = stream_context_create($options);
-
-        // Open the file using the HTTP headers set above
-        $snipe_response = file_get_contents($snipe_link . 'api/v1/hardware/bytag/' . $asset_id, false, $context);*/
-
-        $curl_h = curl_init($snipe_link . 'api/v1/hardware/bytag/' . $asset_id);
+	    $curl_h = curl_init($snipe_link . 'api/v1/hardware/bytag/' . $asset_id);
 
         curl_setopt($curl_h, CURLOPT_HTTPHEADER,
             array(
@@ -196,16 +177,23 @@ class SnipeITIntegrator extends Plugin {
 
         # do not output, but store to variable
         curl_setopt($curl_h, CURLOPT_RETURNTRANSFER, true);
+        // Get Headers
+        curl_setopt($curl_h, CURLOPT_VERBOSE, 1);
 
         $response = curl_exec($curl_h);
 
+        // Then, after your curl_exec call:
+        $header_size = curl_getinfo($curl_h, CURLINFO_HEADER_SIZE);
+        $header = substr($response, 0, $header_size);
+        $body = substr($response, $header_size);
+
         if (self::DEBUG_PRINT_JSON_RESPONSE) {
-            error_log ( "[DEBUG_PRINT_JSON_RESPONSE][getAssetLinkFromAsset] Queried With address '" . $snipe_link . 'api/v1/hardware/bytag/' . $asset_id);
-            error_log ( "[DEBUG_PRINT_JSON_RESPONSE][getAssetLinkFromAsset] JSON Response '" . $snipe_response . "'");
+            error_log ( "[DEBUG_PRINT_JSON_RESPONSE][getAssetLinkFromAsset] HTTP Response '" . $header . "'");
+            error_log ( "[DEBUG_PRINT_JSON_RESPONSE][getAssetLinkFromAsset] JSON Response '" . $body   . "'");
         }
 
         //Parse Response
-        $snipe_json = json_decode($response, true);
+        $snipe_json = json_decode($body, true);
 
         if (self::DEBUG_PRINT_JSON_RESPONSE) {
             error_log ( "[DEBUG_PRINT_JSON_RESPONSE][getAssetLinkFromAsset] JSON Parsed '" . $snipe_json . "'");
