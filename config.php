@@ -42,9 +42,9 @@ class SnipeITPluginConfig extends PluginConfig
                 'hint' => $__('Your Secret API Key for Snipe-IT'),
                 'default' => ''
             ]),
-            'url' => new TextboxField([ //Snipe-IT Url
+            'url' => new TextareaField([ //Snipe-IT Url
                 'label' => $__('Snipe-IT URL'),
-                'hint' => $__('The URL Of you Snipe-IT Server (http://url.com/)'),
+                'hint' => $__('The URL Of you Snipe-IT Server (http://url.com/). Please make sure to UNLINK the URL before saving.'),
                 'default' => 'http://url.com/'
             ])/*,
             'aiec' => new BooleanField([ //Asset ID Encasement Character
