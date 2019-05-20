@@ -6,16 +6,16 @@ require_once ('config.php');
  * TODO At some point write a plugin description here
  */
 class SnipeITIntegrator extends Plugin {
-	const DEBUG = true;
+    
+    /************* DEBUG VARIABLES ********************/
+	const DEBUG = false;
 
-	const DEBUG_SNIPE_API_CALLS = true;
+	const DEBUG_SNIPE_API_CALLS = false;
 
-    const DEBUG_PRINT_JSON_RESPONSE = true;
+    const DEBUG_PRINT_JSON_RESPONSE = false;
 
-    /**
-     * The Sign that Triggers our software to look for an asset ID
-     */
-	// const TRIGGER_KEY = '[';
+    /************* END DEBUG VARIABLES ****************/
+
 	/**
 	 * Which config to use (in config.php)
 	 *
@@ -30,14 +30,6 @@ class SnipeITIntegrator extends Plugin {
 	 */
 	const MAX_LENGTH_ASSET = 128;
 
-	/**
-	 * Define some class constants for the source of an entry
-	 *
-	 * @var integer
-	 */
-	const Staff = 0;
-	const User = 1;
-	const System = 2;
 
 	/**
 	 * Run on every instantiation of osTicket..
@@ -66,53 +58,56 @@ class SnipeITIntegrator extends Plugin {
 		$body_text = $entry->getBody ()->getClean ();
 		$config = $this->getConfig ();
 
+		if($config->get ( 'asl' )) {
+            // Match every instance of [asset in the thread text
+            if (strpos($body_text, '[')!== false && $assets = $this->getAssetsFromBody ( $body_text, '[' )) {
 
-		// Match every instance of [asset in the thread text
-		if (strpos($body_text, '[')!== false && $assets = $this->getAssetsFromBody ( $body_text, '[' )) {
+                if (self::DEBUG) error_log ( "[DEBUG][checkThreadTextForAssets] Number of Assets found: " . array_count_values($assets));
 
-            if (self::DEBUG) error_log ( "[DEBUG][checkThreadTextForAssets] Number of Assets found: " . array_count_values($assets));
+                $snipe_internal_ids = array();
 
-		    $snipe_internal_ids = array();
+                // We are gonna contact Snipe-IT's API and their internal IDs
+                foreach ( $assets as $idx => $asset_id ) {
+                    array_push($snipe_internal_ids, $this -> getInternalIds($asset_id, false));
+                }
 
-		    // We are gonna contact Snipe-IT's API and their internal IDs
-			foreach ( $assets as $idx => $asset_id ) {
-			    array_push($snipe_internal_ids, $this -> getInternalIds($asset_id, false));
-			}
+                if (self::DEBUG) error_log ( "[DEBUG][checkThreadTextForAssets] Finished Querying Snipe-IT API For Asset-IDs");
 
-            if (self::DEBUG) error_log ( "[DEBUG][checkThreadTextForAssets] Finished Querying Snipe-IT API For Asset-IDs");
+                // We have the IDs, now we need to inject the links into the message
+                $body_text = $this->injectLinks($body_text, $snipe_internal_ids, false);
 
-			// We have the IDs, now we need to inject the links into the message
-            $body_text = $this->injectLinks($body_text, $snipe_internal_ids, false);
+                if (self::DEBUG) error_log ( "[DEBUG][checkThreadTextForAssets] Injected Links for Asset IDs");
 
-            if (self::DEBUG) error_log ( "[DEBUG][checkThreadTextForAssets] Injected Links for Asset IDs");
+            }else {if (self::DEBUG) error_log ( "[DEBUG][checkThreadTextForAssets] No Asset IDs Found!");}
 
-		}else {if (self::DEBUG) error_log ( "[DEBUG][checkThreadTextForAssets] No Asset IDs Found!");}
+            // Match every instance of {serial in the thread text
+            if (strpos($body_text, '{')!== false && $serials = $this->getAssetsFromBody ( $body_text, '{' )) {
 
-        // Match every instance of {serial in the thread text
-        if (strpos($body_text, '{')!== false && $serials = $this->getAssetsFromBody ( $body_text, '{' )) {
+                if (self::DEBUG) error_log ( "[DEBUG][checkThreadTextForAssets] Number of Serial Numbers found: " . array_count_values($serials));
 
-            if (self::DEBUG) error_log ( "[DEBUG][checkThreadTextForAssets] Number of Serial Numbers found: " . array_count_values($serials));
+                $snipe_internal_ids = array();
 
-            $snipe_internal_ids = array();
+                // We are gonna contact Snipe-IT's API and their internal IDs
+                foreach ( $serials as $idx => $asset_id ) {
+                    array_push($snipe_internal_ids, $this -> getInternalIds($asset_id, true));
+                }
 
-            // We are gonna contact Snipe-IT's API and their internal IDs
-            foreach ( $serials as $idx => $asset_id ) {
-                array_push($snipe_internal_ids, $this -> getInternalIds($asset_id, true));
-            }
+                if (self::DEBUG) error_log ( "[DEBUG][checkThreadTextForAssets] Finished Querying Snipe-IT API For Serial Numbers");
 
-            if (self::DEBUG) error_log ( "[DEBUG][checkThreadTextForAssets] Finished Querying Snipe-IT API For Serial Numbers");
+                // We have the IDs, now we need to inject the links into the message
+                $body_text = $this->injectLinks($body_text, $snipe_internal_ids, true);
 
-            // We have the IDs, now we need to inject the links into the message
-            $body_text = $this->injectLinks($body_text, $snipe_internal_ids, true);
+                if (self::DEBUG) error_log ( "[DEBUG][checkThreadTextForAssets] Injected Links for Serial Numbers");
 
-            if (self::DEBUG) error_log ( "[DEBUG][checkThreadTextForAssets] Injected Links for Serial Numbers");
+            } else {if (self::DEBUG) error_log ( "[DEBUG][checkThreadTextForAssets] No Serial Numbers Found!");}
+            //Set Body
+            $entry->setBody($body_text);
 
-        } else {if (self::DEBUG) error_log ( "[DEBUG][checkThreadTextForAssets] No Serial Numbers Found!");}
+            if (self::DEBUG) error_log ( "[DEBUG][checkThreadTextForAssets] Set Body to'" . $body_text .  "''. All done!");
+        } else {
+            if (self::DEBUG) error_log ( "[DEBUG][checkThreadTextForAssets] SnipeIT-osTicket Integration Plugin disabled");
+        }
 
-        //Set Body
-        $entry->setBody($body_text);
-
-        if (self::DEBUG) error_log ( "[DEBUG][checkThreadTextForAssets] Set Body to'" . $body_text .  "''. All done!");
 	}
 
 	/**
@@ -134,9 +129,9 @@ class SnipeITIntegrator extends Plugin {
 				}, array_unique ( $matches [2] ) );
 			}
 		}
-		if (self::DEBUG) {
-			error_log ( "Matched $prefix " . count ( $mentions ) . ' matches.' );
-		}
+
+		if (self::DEBUG) error_log ( "[DEBUG][getAssetsFromBody]Matched $prefix " . count ( $mentions ) . ' matches.' );
+
 		return isset ( $mentions [0] ) ? $mentions : null; // fastest validator ever.
 	}
 
@@ -157,7 +152,7 @@ class SnipeITIntegrator extends Plugin {
         while ($search_finished == false) {
             if (sizeof($snipe_ids) > $i) {
                 if(strlen($snipe_ids[$i]) < 1) { //Lookup failed, we just need to remove the braces and leave the tag with no link
-                    if(self::DEBUG) error_log("[DEBUG][injectLinks] Lookup #" . $i . " failed. Skipping.  String Legnth: " . strlen($snipe_ids[$i]) . " Type of: " . gettype($snipe_ids[$i]));
+                    if(self::DEBUG) error_log("[DEBUG][injectLinks] Lookup #" . $i . " failed. Skipping.  String Legnth: " . strlen($snipe_ids[$i]));
 
                     $first_char = ($serial) ? "{" : "[";
                     $last_char  = ($serial) ? "}" : "]";
