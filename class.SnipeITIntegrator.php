@@ -201,8 +201,8 @@ class SnipeITIntegrator extends Plugin {
             error_log ( "[DEBUG_SNIPE_API_CALLS][getAssetLinkFromAsset] Starting Call for '" . $asset_id . "'");
         }
 	    //Temporary Testing Variables
-	    $api_key = $this->getConfig ()->get ( 'apikey' );
-	    $snipe_link = $this->getConfig ()->get ( 'url' );
+	    $api_key = strip_tags( $this->getConfig ()->get ( 'apikey' ) );
+	    $snipe_link = strip_tags($this->getConfig ()->get ( 'url' ));
 
 	    $full_url = $snipe_link . 'api/v1/hardware/' . (($serial) ? 'byserial' : 'bytag') . '/' . $asset_id;
 
